@@ -64,9 +64,10 @@ void SelectionGrid::update()
 					{
 						selectedX = x;
 						selectedY = y;
-						selectedPos = x*columns + y*rows;
-					}
+						selectedPos = pos;
+					}	
 				}
+				pos++;
 			}
 		}
 	}

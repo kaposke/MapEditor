@@ -39,7 +39,7 @@ void ofApp::update(){
 	//Updating DrawingGrid
 	drawingGrid->setPosition(gridPanel->getPosition());
 	drawingGrid->setSize(gridPanel->getWidth(), gridPanel->getHeight());
-	drawingGrid->update();
+	drawingGrid->update(tileHandler, pallete->getSelected());
 
 	//Updating pallete
 	pallete->setPosition(selectionPanel->getPosition() + palleteOfSet);
@@ -54,7 +54,7 @@ void ofApp::draw(){
 	selectionPanel->draw();
 
 	//Drawing DrawingGrid
-	ofSetColor(255,50);
+	ofSetColor(0,50);
 	drawingGrid->draw();
 
 	//Drawing pallete

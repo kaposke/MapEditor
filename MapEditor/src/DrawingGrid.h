@@ -1,6 +1,7 @@
 #pragma once
 #include "ofMain.h"
 #include <vector>
+#include "TileHandler.h"
 
 using std::vector;
 
@@ -17,8 +18,13 @@ private:
 	float horizontalSize;
 	float verticalSize;
 
+	TileHandler *tileHandler;
+
 	int mouseX;
 	int mouseY;
+
+	int clickedX;
+	int clickedY;
 public:
 	DrawingGrid(float x, float y, float width, float height);
 
@@ -31,7 +37,7 @@ public:
 
 	void setRes(int horizontal, int vertical);
 
-	void update();
+	void update(TileHandler *tileHandler_, int tile);
 
 	void draw();
 };

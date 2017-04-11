@@ -32,17 +32,16 @@ void DrawingGrid::setRes(int horizontal, int vertical)
 {
 	rows = horizontal;
 	columns = vertical;
-	for (int y = 0; y < vertical; y++)
-	{
-		vector<int> row(0, horizontal);
-		grid.push_back(row);
-	}
+	grid.resize(columns, vector<int>(rows, -1));
 }
 
-void DrawingGrid::update()
+void DrawingGrid::update(TileHandler *tileHandler_,int tile)
 {
 	mouseX = -1;
 	mouseY = -1;
+
+	clickedX = -1;
+	clickedY = -1;
 
 	horizontalSize = width / columns;
 	verticalSize = height / rows;
@@ -60,6 +59,16 @@ void DrawingGrid::update()
 			}
 		}
 	}
+
+	if (ofGetMousePressed(OF_MOUSE_BUTTON_1))
+	{
+		clickedX = mouseX;
+		clickedY = mouseY;
+	}
+	tileHandler = tileHandler_;
+
+	if (clickedX >= 0 && clickedY >= 0 && tile>=0)
+		grid.at(clickedY).at(clickedX) = tile;
 }
 
 void DrawingGrid::draw()
@@ -72,6 +81,16 @@ void DrawingGrid::draw()
 			ofDrawLine(position.x, position.y + verticalSize * y, position.x + width, position.y + verticalSize * y);
 		}
 	}
+	ofSetColor(255, 255);
+	for (int y = 0; y < rows; y++)
+	{
+		for (int x = 0; x < columns; x++)
+		{
+			if(grid.at(y).at(x) >= 0)
+				tileHandler->getTile(grid.at(y).at(x)).draw(position.x + horizontalSize*x, position.y + verticalSize*y, horizontalSize, verticalSize);
+		}
+	}
+	
 
 	ofSetColor(255, 50);
 	ofDrawRectangle(position.x + horizontalSize * mouseX, position.y + verticalSize * mouseY, horizontalSize, verticalSize);
