@@ -40,35 +40,24 @@ void DrawingGrid::update(TileHandler *tileHandler_,int tile)
 	mouseX = -1;
 	mouseY = -1;
 
-	clickedX = -1;
-	clickedY = -1;
+	tileHandler = tileHandler_;
 
 	horizontalSize = width / columns;
 	verticalSize = height / rows;
 	if (ofGetMouseX() > position.x && ofGetMouseX() < position.x + width && ofGetMouseY() > position.y && ofGetMouseY() < position.y + height)
 	{
-		for (int y = 0; y < rows; y++)
-		{
-			for (int x = 0; x < columns; x++)
+			mouseX = (position.x + ofGetMouseX()) / horizontalSize;
+			mouseY = (position.y+ ofGetMouseY()) / verticalSize;
+			if (ofGetMousePressed(OF_MOUSE_BUTTON_1))
 			{
-				if (ofGetMouseX() > position.x + horizontalSize * x && ofGetMouseX() < position.x + horizontalSize * (x + 1) && ofGetMouseY() > position.y + verticalSize * y && ofGetMouseY() < position.y + verticalSize * (y + 1))
-				{
-					mouseX = x;
-					mouseY = y;
-				}
+				grid.at(mouseY).at(mouseX) = tile;
 			}
-		}
+			if (ofGetMousePressed(OF_MOUSE_BUTTON_3))
+			{
+					grid.at(mouseY).at(mouseX) = -1;
+			}
+		
 	}
-
-	if (ofGetMousePressed(OF_MOUSE_BUTTON_1))
-	{
-		clickedX = mouseX;
-		clickedY = mouseY;
-	}
-	tileHandler = tileHandler_;
-
-	if (clickedX >= 0 && clickedY >= 0 && tile>=0)
-		grid.at(clickedY).at(clickedX) = tile;
 }
 
 void DrawingGrid::draw()

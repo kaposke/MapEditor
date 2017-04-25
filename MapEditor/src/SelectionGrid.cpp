@@ -30,7 +30,10 @@ void SelectionGrid::setSize(float width, float height)
 
 int SelectionGrid::getSelected()
 {
-	return selectedPos;
+	if (selectedPos >= grid.size())
+		return -1;
+	else
+		return selectedPos;
 }
 
 void SelectionGrid::addTile(ofImage tile)
@@ -60,7 +63,7 @@ void SelectionGrid::update()
 				{
 					mouseX = x;
 					mouseY = y;
-					if (ofGetMousePressed())
+					if (ofGetMousePressed(OF_MOUSE_BUTTON_1))
 					{
 						selectedX = x;
 						selectedY = y;

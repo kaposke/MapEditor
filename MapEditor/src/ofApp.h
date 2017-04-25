@@ -5,6 +5,8 @@
 #include "DrawingGrid.h"
 #include "SelectionGrid.h"
 #include "TileHandler.h"
+#include "Button.h"
+#include <shellapi.h>
 
 class ofApp : public ofBaseApp{
 
@@ -27,6 +29,7 @@ class ofApp : public ofBaseApp{
 		
 		Panel* gridPanel;
 		Panel* selectionPanel;
+		Panel* buttonsPanel;
 
 		DrawingGrid* drawingGrid;
 		SelectionGrid* pallete;
@@ -34,4 +37,6 @@ class ofApp : public ofBaseApp{
 
 		ofImage image;
 		TileHandler* tileHandler;
+
+		Button* saveButton;
 };

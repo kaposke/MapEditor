@@ -1,5 +1,6 @@
-﻿     Creating library bin\MapEditor_debug.lib and object bin\MapEditor_debug.exp
-  MapEditor.vcxproj -> C:\Users\guilh\OneDrive\Documenti\Visual Studio 2015\Projects\MapEditor\MapEditor\bin\MapEditor_debug.exe
+﻿  ofApp.cpp
+src\ofApp.cpp(66): warning C4129: 'L': unrecognized character escape sequence
+  MapEditor.vcxproj -> C:\Users\guilh\Documents\Projetos Git\MapEditor\MapEditor\bin\MapEditor_debug.exe
   MapEditor.vcxproj -> bin\MapEditor_debug.pdb (Full PDB)
   
   	                   9	C:\Temp\of_v0.9.8_vs_release\export\vs\Win32\

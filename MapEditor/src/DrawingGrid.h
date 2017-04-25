@@ -23,8 +23,6 @@ private:
 	int mouseX;
 	int mouseY;
 
-	int clickedX;
-	int clickedY;
 public:
 	DrawingGrid(float x, float y, float width, float height);
 
