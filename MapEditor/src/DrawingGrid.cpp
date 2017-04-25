@@ -35,6 +35,21 @@ void DrawingGrid::setRes(int horizontal, int vertical)
 	grid.resize(columns, vector<int>(rows, -1));
 }
 
+int DrawingGrid::getColumns()
+{
+	return columns;
+}
+
+int DrawingGrid::getRows()
+{
+	return rows;
+}
+
+int DrawingGrid::getTile(int x, int y)
+{
+	return grid.at(y).at(x);
+}
+
 void DrawingGrid::update(TileHandler *tileHandler_,int tile)
 {
 	mouseX = -1;

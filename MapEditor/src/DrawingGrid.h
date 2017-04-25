@@ -35,6 +35,11 @@ public:
 
 	void setRes(int horizontal, int vertical);
 
+	int getColumns();
+	int getRows();
+
+	int getTile(int x, int y);
+
 	void update(TileHandler *tileHandler_, int tile);
 
 	void draw();

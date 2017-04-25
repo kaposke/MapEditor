@@ -21,9 +21,9 @@ void ofApp::setup(){
 	pallete = new SelectionGrid(selectionPanel->getPosition().x + palleteOfSet, selectionPanel->getPosition().y + palleteOfSet, selectionPanel->getWidth() - palleteOfSet*2, selectionPanel->getHeight() - palleteOfSet*2);
 
 	//Adding Tile
-	image.loadImage("images/tileset.png");
+	image.loadImage("images/mario.gif");
 	tileHandler = new TileHandler();
-	tileHandler->addTiles(image,16,12);
+	tileHandler->addTiles(image,13,11);
 	for (int i = 0; i < tileHandler->getTilesAmount(); i++)
 	{
 		pallete->addTile(tileHandler->getTile(i));
@@ -63,7 +63,19 @@ void ofApp::update(){
 	//saveButton
 	if (saveButton->isClicked())
 	{
-
+		ofFileDialogResult result = ofSystemSaveDialog("map.txt", "Save");
+		if (result.bSuccess) {
+			string path = result.getPath();
+			ofstream arquivo(path);
+			for (int y = 0; y < drawingGrid->getRows(); y++)
+			{
+				for (int x = 0; x < drawingGrid->getColumns(); x++)
+				{
+					arquivo << drawingGrid->getTile(x, y) << " ";
+				}
+				arquivo << endl;
+			}
+		}
 	}
 }
 

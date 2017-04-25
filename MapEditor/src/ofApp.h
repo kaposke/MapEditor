@@ -6,7 +6,7 @@
 #include "SelectionGrid.h"
 #include "TileHandler.h"
 #include "Button.h"
-#include <shellapi.h>
+#include <fstream>
 
 class ofApp : public ofBaseApp{
 
@@ -39,4 +39,5 @@ class ofApp : public ofBaseApp{
 		TileHandler* tileHandler;
 
 		Button* saveButton;
+		
 };
