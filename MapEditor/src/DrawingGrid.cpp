@@ -50,6 +50,11 @@ int DrawingGrid::getTile(int x, int y)
 	return grid.at(y).at(x);
 }
 
+void DrawingGrid::setTile(int x, int y, int tile)
+{
+	grid.at(y).at(x) = tile;
+}
+
 void DrawingGrid::update(TileHandler *tileHandler_,int tile)
 {
 	mouseX = -1;

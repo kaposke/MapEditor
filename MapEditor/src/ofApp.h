@@ -39,5 +39,6 @@ class ofApp : public ofBaseApp{
 		TileHandler* tileHandler;
 
 		Button* saveButton;
+		Button* loadButton;
 		
 };

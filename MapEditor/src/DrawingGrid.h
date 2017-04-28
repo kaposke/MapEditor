@@ -40,6 +40,8 @@ public:
 
 	int getTile(int x, int y);
 
+	void setTile(int x, int y, int tile);
+
 	void update(TileHandler *tileHandler_, int tile);
 
 	void draw();

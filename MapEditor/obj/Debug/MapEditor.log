@@ -1,5 +1,2 @@
 ﻿  ofApp.cpp
-  MapEditor.vcxproj -> C:\Users\guilherme.bassa\MapEditor\MapEditor\bin\MapEditor_debug.exe
-  MapEditor.vcxproj -> bin\MapEditor_debug.pdb (Full PDB)
-  
-  	                   9	C:\Temp\of_v0.9.8_vs_release\export\vs\Win32\
+src\ofApp.cpp(69): error C2143: syntax error: missing ';' before 'if'

@@ -21,9 +21,9 @@ void ofApp::setup(){
 	pallete = new SelectionGrid(selectionPanel->getPosition().x + palleteOfSet, selectionPanel->getPosition().y + palleteOfSet, selectionPanel->getWidth() - palleteOfSet*2, selectionPanel->getHeight() - palleteOfSet*2);
 
 	//Adding Tile
-	image.loadImage("images/mario.gif");
+	image.loadImage("images/kenney.png");
 	tileHandler = new TileHandler();
-	tileHandler->addTiles(image,13,11);
+	tileHandler->addTiles(image,27,20);
 	for (int i = 0; i < tileHandler->getTilesAmount(); i++)
 	{
 		pallete->addTile(tileHandler->getTile(i));
@@ -32,6 +32,7 @@ void ofApp::setup(){
 	//Buttons Setup
 	//Save Button
 	saveButton = new Button("Save", 15, buttonsPanel->getPosition().x, buttonsPanel->getPosition().y + buttonsPanel->getHeight() / 2, 70, 30);
+	loadButton = new Button("Load", 15, saveButton->getPosition().x, saveButton->getPosition().y, 70, 30);
 }
 
 //--------------------------------------------------------------
@@ -58,6 +59,7 @@ void ofApp::update(){
 
 	//Updating buttons
 	saveButton->setPosition(buttonsPanel->getPosition().x + palleteOfSet, buttonsPanel->getPosition().y + buttonsPanel->getHeight()/2 - saveButton->getHeight()/2);
+	loadButton->setPosition(saveButton->getPosition().x + loadButton->getWidth() + palleteOfSet, saveButton->getPosition().y);
 
 	//Button Behaviors
 	//saveButton
@@ -65,7 +67,7 @@ void ofApp::update(){
 	{
 		ofFileDialogResult result = ofSystemSaveDialog("map.txt", "Save");
 		if (result.bSuccess) {
-			string path = result.getPath();
+			string path = result.getPath() + ".txt";
 			ofstream arquivo(path);
 			for (int y = 0; y < drawingGrid->getRows(); y++)
 			{
@@ -75,6 +77,27 @@ void ofApp::update(){
 				}
 				arquivo << endl;
 			}
+			arquivo.close();
+		}
+	}
+
+	//loadButton
+	if (loadButton->isClicked())
+	{
+		ofFileDialogResult result = ofSystemLoadDialog("Load file");
+		if (result.bSuccess) {
+			string path = result.getPath();
+			ifstream arquivo(path);
+			for (int y = 0; y < drawingGrid->getRows(); y++)
+			{
+				for (int x = 0; x < drawingGrid->getColumns(); x++)
+				{
+					int tile;
+					arquivo >> tile;
+					drawingGrid->setTile(x, y, tile);
+				}
+			}
+			arquivo.close();
 		}
 	}
 }
@@ -98,6 +121,7 @@ void ofApp::draw(){
 
 	//Drawing buttons
 	saveButton->draw();
+	loadButton->draw();
 }
 
 //--------------------------------------------------------------
