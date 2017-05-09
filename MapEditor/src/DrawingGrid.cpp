@@ -35,6 +35,11 @@ void DrawingGrid::setRes(int horizontal, int vertical)
 	grid.resize(columns, vector<int>(rows, -1));
 }
 
+void DrawingGrid::hideGrid(bool input)
+{
+	hide = input;
+}
+
 int DrawingGrid::getColumns()
 {
 	return columns;
@@ -82,14 +87,20 @@ void DrawingGrid::update(TileHandler *tileHandler_,int tile)
 
 void DrawingGrid::draw()
 {
-	for (int y = 0; y <= rows; y++)
+	//Draws the Grid Lines
+	if (!hide)
 	{
 		for (int x = 0; x <= columns; x++)
 		{
 			ofDrawLine(position.x + horizontalSize * x, position.y, position.x + horizontalSize * x, position.y + height);
+		}
+		for (int y = 0; y <= rows; y++)
+		{
 			ofDrawLine(position.x, position.y + verticalSize * y, position.x + width, position.y + verticalSize * y);
 		}
 	}
+
+	//Draws the tiles
 	ofSetColor(255, 255);
 	for (int y = 0; y < rows; y++)
 	{
@@ -100,7 +111,11 @@ void DrawingGrid::draw()
 		}
 	}
 	
-
-	ofSetColor(255, 50);
-	ofDrawRectangle(position.x + horizontalSize * mouseX, position.y + verticalSize * mouseY, horizontalSize, verticalSize);
+	//Highlights the mouse position in the grid
+	if (!hide)
+	{
+		ofSetColor(255, 50);
+		ofDrawRectangle(position.x + horizontalSize * mouseX, position.y + verticalSize * mouseY, horizontalSize, verticalSize);
+	}
+	ofSetColor(255);
 }

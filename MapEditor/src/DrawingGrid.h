@@ -23,6 +23,7 @@ private:
 	int mouseX;
 	int mouseY;
 
+	bool hide = false;
 public:
 	DrawingGrid(float x, float y, float width, float height);
 
@@ -34,6 +35,8 @@ public:
 	void setSize(float width, float height);
 
 	void setRes(int horizontal, int vertical);
+
+	void hideGrid(bool input);
 
 	int getColumns();
 	int getRows();

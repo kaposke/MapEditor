@@ -1,2 +1,11 @@
-﻿  ofApp.cpp
-src\ofApp.cpp(69): error C2143: syntax error: missing ';' before 'if'
+﻿  Editor.cpp
+  main.cpp
+  ofApp.cpp
+c:\users\guilh\documents\projetos git\mapeditor\mapeditor\src\Editor.h(51): warning C4091: 'static ': ignored on left of 'Editor' when no variable is declared (compiling source file src\ofApp.cpp)
+c:\users\guilh\documents\projetos git\mapeditor\mapeditor\src\Editor.h(51): warning C4091: 'static ': ignored on left of 'Editor' when no variable is declared (compiling source file src\Editor.cpp)
+c:\users\guilh\documents\projetos git\mapeditor\mapeditor\src\Editor.h(51): warning C4091: 'static ': ignored on left of 'Editor' when no variable is declared (compiling source file src\main.cpp)
+     Creating library bin\MapEditor_debug.lib and object bin\MapEditor_debug.exp
+  MapEditor.vcxproj -> C:\Users\guilh\Documents\Projetos Git\MapEditor\MapEditor\bin\MapEditor_debug.exe
+  MapEditor.vcxproj -> bin\MapEditor_debug.pdb (Full PDB)
+  
+  	                   9	C:\Temp\of_v0.9.8_vs_release\export\vs\Win32\

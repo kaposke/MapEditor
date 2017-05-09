@@ -1,12 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "Panel.h"
-#include "DrawingGrid.h"
-#include "SelectionGrid.h"
-#include "TileHandler.h"
-#include "Button.h"
-#include <fstream>
+#include "Editor.h"
 
 class ofApp : public ofBaseApp{
 
@@ -26,19 +21,6 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-		
-		Panel* gridPanel;
-		Panel* selectionPanel;
-		Panel* buttonsPanel;
 
-		DrawingGrid* drawingGrid;
-		SelectionGrid* pallete;
-		int palleteOfSet;
-
-		ofImage image;
-		TileHandler* tileHandler;
-
-		Button* saveButton;
-		Button* loadButton;
-		
+		Editor editor;
 };

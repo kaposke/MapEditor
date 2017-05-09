@@ -177,6 +177,7 @@
   <ItemGroup>
     <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\DrawingGrid.cpp" />
+    <ClCompile Include="src\Editor.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="src\Panel.cpp" />
@@ -186,6 +187,7 @@
   <ItemGroup>
     <ClInclude Include="src\Button.h" />
     <ClInclude Include="src\DrawingGrid.h" />
+    <ClInclude Include="src\Editor.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\Panel.h" />
     <ClInclude Include="src\SelectionGrid.h" />
