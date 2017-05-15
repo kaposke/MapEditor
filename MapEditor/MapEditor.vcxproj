@@ -181,6 +181,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="src\Panel.cpp" />
+    <ClCompile Include="src\Scroll.cpp" />
     <ClCompile Include="src\SelectionGrid.cpp" />
     <ClCompile Include="src\TileHandler.cpp" />
   </ItemGroup>
@@ -190,6 +191,7 @@
     <ClInclude Include="src\Editor.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\Panel.h" />
+    <ClInclude Include="src\Scroll.h" />
     <ClInclude Include="src\SelectionGrid.h" />
     <ClInclude Include="src\TileHandler.h" />
   </ItemGroup>

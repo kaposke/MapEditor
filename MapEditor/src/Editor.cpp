@@ -22,6 +22,7 @@ void Editor::setupPallete()
 {
 	palleteOfSet = 10;
 	pallete = new SelectionGrid(selectionPanel->getPosition().x + palleteOfSet, selectionPanel->getPosition().y + palleteOfSet, selectionPanel->getWidth() - palleteOfSet * 2, selectionPanel->getHeight() - palleteOfSet * 2);
+	palleteScroll = new Scroll(pallete->getPosition().x + pallete->getWidth() + palleteOfSet * 2, 0 + palleteOfSet, ofGetHeight() - buttonsPanel->getHeight() - palleteOfSet * 2);
 }
 
 void Editor::setupTile()
@@ -73,8 +74,18 @@ void Editor::updateDrawingGrid()
 void Editor::updatePallete()
 {
 	pallete->setPosition(selectionPanel->getPosition() + palleteOfSet);
+	
 	pallete->setSize(selectionPanel->getWidth() - palleteOfSet * 2, selectionPanel->getHeight() - palleteOfSet * 2);
+
+	palleteScroll->setPosition(pallete->getPosition().x + pallete->getWidth() + palleteOfSet, 0 + palleteOfSet);
+	palleteScroll->setHeight(ofGetHeight() - buttonsPanel->getHeight() - palleteOfSet * 2);
+	palleteScroll->update();
+
+	pallete->setPosition(pallete->getPosition().x, ofMap(palleteScroll->getPercentage(), 0,100, selectionPanel->getPosition().y + palleteOfSet, -pallete->getHeight() - buttonsPanel->getHeight() - palleteOfSet + ofGetHeight()));
 	pallete->update();
+
+	system("cls");
+	cout << pallete->getPosition().y  << "   " << pallete->getHeight()<< endl;
 }
 
 void Editor::updateButtons()
@@ -164,6 +175,7 @@ void Editor::drawPallete()
 {
 	ofSetColor(255, 50);
 	pallete->draw();
+	palleteScroll->draw();
 }
 
 void Editor::drawButtons()

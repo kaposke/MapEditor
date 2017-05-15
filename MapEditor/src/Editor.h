@@ -7,8 +7,9 @@
 #include "TileHandler.h"
 #include "Button.h"
 #include <fstream>
+#include "Scroll.h"
 
-static class Editor
+class Editor
 {
 private:
 	Panel* gridPanel;
@@ -18,6 +19,8 @@ private:
 	DrawingGrid* drawingGrid;
 	SelectionGrid* pallete;
 	int palleteOfSet;
+
+	Scroll* palleteScroll;
 
 	ofImage image;
 	TileHandler* tileHandler;

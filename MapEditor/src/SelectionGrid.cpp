@@ -52,7 +52,7 @@ void SelectionGrid::update()
 	mouseX = -1;
 	mouseY = -1;
 	
-	if (ofGetMouseX() > position.x && ofGetMouseX() < position.x + width && ofGetMouseY() > position.y && ofGetMouseY() < position.y + height)
+	if (ofGetMouseX() > position.x && ofGetMouseX() < position.x + width && ofGetMouseY() > position.y && ofGetMouseY() < position.y + rows*maxSize)
 	{
 		int pos = 0;
 		for (int y = 0; y < rows; y++)
@@ -76,16 +76,25 @@ void SelectionGrid::update()
 	}
 }
 
+float SelectionGrid::getWidth()
+{
+	return columns * maxSize;
+}
+
+float SelectionGrid::getHeight()
+{
+	return rows * maxSize;
+}
+
 void SelectionGrid::draw()
 {
 	for (int y = 0; y <= rows; y++)
 	{
-		for (int x = 0; x <= columns; x++)
-		{
-			ofDrawLine(position.x + horizontalSize * x, position.y, position.x + horizontalSize * x, position.y + verticalSize * rows);
-			ofDrawLine(position.x, position.y + verticalSize * y, position.x + horizontalSize * columns, position.y + verticalSize * y);
-			
-		}
+		ofDrawLine(position.x, position.y + verticalSize * y, position.x + horizontalSize * columns, position.y + verticalSize * y);
+	}
+	for (int x = 0; x <= columns; x++)
+	{
+		ofDrawLine(position.x + horizontalSize * x, position.y, position.x + horizontalSize * x, position.y + verticalSize * rows);
 	}
 
 	int pos = 0;

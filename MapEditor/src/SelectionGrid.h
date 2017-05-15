@@ -41,5 +41,8 @@ public:
 
 	void update();
 
+	float getWidth();
+	float getHeight();
+
 	void draw();
 };
