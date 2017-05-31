@@ -83,9 +83,6 @@ void Editor::updatePallete()
 
 	pallete->setPosition(pallete->getPosition().x, ofMap(palleteScroll->getPercentage(), 0,100, selectionPanel->getPosition().y + palleteOfSet, -pallete->getHeight() - buttonsPanel->getHeight() - palleteOfSet + ofGetHeight()));
 	pallete->update();
-
-	system("cls");
-	cout << pallete->getPosition().y  << "   " << pallete->getHeight()<< endl;
 }
 
 void Editor::updateButtons()

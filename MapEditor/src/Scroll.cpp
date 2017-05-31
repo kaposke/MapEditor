@@ -34,14 +34,14 @@ void Scroll::update()
 		if (ofGetMousePressed(OF_MOUSE_BUTTON_1))
 		{
 			rectPos.y = ofGetMouseY() - rectHeight /2;
-			if (rectPos.y < pos.y)
-				rectPos.y = pos.y;
-			if (rectPos.y + rectHeight > pos.y + height)
-				rectPos.y = pos.y + height - rectHeight;
 		}
 		else
 			isPressed = false;
 	}
+	if (rectPos.y < pos.y)
+		rectPos.y = pos.y;
+	if (rectPos.y + rectHeight > pos.y + height)
+		rectPos.y = pos.y + height - rectHeight;
 }
 
 void Scroll::setHeight(float height)

@@ -1,4 +1,5 @@
-﻿  Editor.cpp
+﻿  Scroll.cpp
+     Creating library bin\MapEditor_debug.lib and object bin\MapEditor_debug.exp
   MapEditor.vcxproj -> C:\Users\guilh\Documents\Projetos Git\MapEditor\MapEditor\bin\MapEditor_debug.exe
   MapEditor.vcxproj -> bin\MapEditor_debug.pdb (Full PDB)
   
