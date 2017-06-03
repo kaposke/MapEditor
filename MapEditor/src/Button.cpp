@@ -60,6 +60,11 @@ ofVec2f Button::getPosition()
 	return position;
 }
 
+void Button::setLabel(string label)
+{
+	this->label = label;
+}
+
 float Button::getWidth()
 {
 	return width;
@@ -101,11 +106,11 @@ void Button::draw()
 {
 	if (checkStatus())
 	{
-		ofSetColor(ar,ag,ab);
+		ofSetColor(ar,ag,ab,aa);
 	}
 	else
 	{
-		ofSetColor(r,g,b);
+		ofSetColor(r,g,b,a);
 	}
 	ofDrawRectangle(position, width, height);
 	ofSetColor(0);
@@ -120,9 +125,25 @@ void Button::setColor(int r, int g, int b)
 	this->b = b;
 }
 
+void Button::setColor(int r, int g, int b, int a)
+{
+	this->r = r;
+	this->g = g;
+	this->b = b;
+	this->a = a;
+}
+
 void Button::setActiveColor(int r, int g, int b)
 {
 	ar = r;
 	ag = g;
 	ab = b;
+}
+
+void Button::setActiveColor(int r, int g, int b, int a)
+{
+	ar = r;
+	ag = g;
+	ab = b;
+	aa = a;
 }

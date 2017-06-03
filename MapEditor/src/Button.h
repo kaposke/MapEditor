@@ -14,10 +14,12 @@ private:
 	int r = 255;
 	int g = 255;
 	int b = 255;
+	int a = 255;
 
 	int ar = 200;
 	int ag = 200;
 	int ab = 200;
+	int aa = 255;
 
 	bool wasClicked = false;
 public:
@@ -35,6 +37,8 @@ public:
 
 	ofVec2f getPosition();
 
+	void setLabel(string label);
+
 	float getWidth();
 	float getHeight();
 
@@ -45,5 +49,8 @@ public:
 	void draw();
 
 	void setColor(int r, int g, int b);
+	void setColor(int r, int g, int b, int a);
+
 	void setActiveColor(int r, int g, int b);
+	void setActiveColor(int r, int g, int b, int a);
 };

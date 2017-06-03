@@ -25,6 +25,11 @@ void Editor::setupPallete()
 	palleteScroll = new Scroll(pallete->getPosition().x + pallete->getWidth() + palleteOfSet * 2, 0 + palleteOfSet, ofGetHeight() - buttonsPanel->getHeight() - palleteOfSet * 2);
 }
 
+void Editor::setupBehaviourGrid()
+{
+	behaviourGrid = new BehaviourGrid(selectionPanel->getPosition().x + palleteOfSet, selectionPanel->getPosition().y + palleteOfSet, selectionPanel->getWidth() - palleteOfSet * 2, selectionPanel->getHeight() - palleteOfSet * 2);
+}
+
 void Editor::setupTile()
 {
 	image.loadImage("images/kenney.png");
@@ -34,6 +39,8 @@ void Editor::setupTile()
 	{
 		pallete->addTile(tileHandler->getTile(i));
 	}
+
+	behaviours.addBehaviour(255,0,0);
 }
 
 void Editor::setupButtons()
@@ -41,6 +48,11 @@ void Editor::setupButtons()
 	saveButton = new Button("Save", 15, buttonsPanel->getPosition().x, buttonsPanel->getPosition().y + buttonsPanel->getHeight() / 2, 70, 30);
 	loadButton = new Button("Load", 15, saveButton->getPosition().x, saveButton->getPosition().y, 70, 30);
 	exportButton = new Button("Export", 15, loadButton->getPosition().x, loadButton->getPosition().y, 90, 30);
+	collisionButton = new Button("Collision", 15, exportButton->getPosition().x, exportButton->getPosition().y, 90, 30);
+	
+	//Set a different color for collisionButton
+	collisionButton->setColor(100,255,255,100);
+	collisionButton->setActiveColor(100, 255, 255, 255);
 }
 
 void Editor::setup()
@@ -48,6 +60,7 @@ void Editor::setup()
 	setupPannels();
 	setupDrawingGrid();
 	setupPallete();
+	setupBehaviourGrid();
 	setupTile();
 	setupButtons();
 }
@@ -68,7 +81,10 @@ void Editor::updateDrawingGrid()
 {
 	drawingGrid->setPosition(gridPanel->getPosition());
 	drawingGrid->setSize(gridPanel->getWidth(), gridPanel->getHeight());
-	drawingGrid->update(tileHandler, pallete->getSelected());
+	if (!collision)
+		drawingGrid->update(tileHandler, pallete->getSelected());
+	else
+		drawingGrid->updateBehaviour(behaviourGrid->getSelected(behaviours));
 }
 
 void Editor::updatePallete()
@@ -85,11 +101,28 @@ void Editor::updatePallete()
 	pallete->update();
 }
 
+void Editor::updateBehaviourGrid()
+{
+	behaviourGrid->setPosition(selectionPanel->getPosition() + palleteOfSet);
+	behaviourGrid->setSize(selectionPanel->getWidth() - palleteOfSet * 2, selectionPanel->getHeight() - palleteOfSet * 2);
+	behaviourGrid->update(behaviours);
+}
+
 void Editor::updateButtons()
 {
 	saveButton->setPosition(buttonsPanel->getPosition().x + palleteOfSet, buttonsPanel->getPosition().y + buttonsPanel->getHeight() / 2 - saveButton->getHeight() / 2);
 	loadButton->setPosition(saveButton->getPosition().x + saveButton->getWidth() + palleteOfSet, saveButton->getPosition().y);
 	exportButton->setPosition(loadButton->getPosition().x + loadButton->getWidth() + palleteOfSet, loadButton->getPosition().y);
+	collisionButton->setPosition(exportButton->getPosition().x + exportButton->getWidth() + palleteOfSet, exportButton->getPosition().y);
+
+	if (collision)
+	{
+		collisionButton->setColor(100,255,255,255);
+	}
+	else
+	{
+		collisionButton->setColor(100,255, 255, 100);
+	}
 }
 
 void Editor::buttonBehaviors()
@@ -133,17 +166,46 @@ void Editor::buttonBehaviors()
 		}
 	}
 
+	
 	//exportButton
-	if (exportButton->isClicked())
+	if (exportButton->isClicked() || c == 1)
 	{
-		ofFileDialogResult result = ofSystemSaveDialog("map.png", "Save");
-		if (result.bSuccess) {
-			string path = result.getPath();
-			path = path + ".png";
-			ofImage map;
-			map.grabScreen(gridPanel->getPosition().x, gridPanel->getPosition().y, gridPanel->getWidth(), gridPanel->getHeight());
-			map.saveImage(path);
+		if (!collision || c == 1)
+		{
+			c = 0;
+			ofFileDialogResult result = ofSystemSaveDialog("map.png", "Save");
+			if (result.bSuccess) {
+				string path = result.getPath();
+				string imgpath = path + ".png";
+				map.grabScreen(gridPanel->getPosition().x, gridPanel->getPosition().y, gridPanel->getWidth(), gridPanel->getHeight());
+				map.saveImage(imgpath);
+				path = path + ".txt";
+				ofstream arquivo(path);
+				for (int y = 0; y < drawingGrid->getRows(); y++)
+				{
+					for (int x = 0; x < drawingGrid->getColumns(); x++)
+					{
+						arquivo << drawingGrid->getBehaviour(x, y) << " ";
+					}
+					arquivo << endl;
+				}
+				arquivo.close();
+			}
 		}
+		else
+		{
+			collision = false;
+			c = 1;
+		}
+	}
+
+	//collisionButton
+	if (collisionButton->isClicked())
+	{
+		if (collision)
+			collision = false;
+		else
+			collision = true;
 	}
 }
 
@@ -151,7 +213,10 @@ void Editor::update()
 {
 	updatePannels();
 	updateDrawingGrid();
-	updatePallete();
+	if (!collision)
+		updatePallete();
+	else
+		updateBehaviourGrid();
 	updateButtons();
 	buttonBehaviors();
 }
@@ -165,7 +230,7 @@ void Editor::drawPannels()
 void Editor::drawDrawingGrid()
 {
 	ofSetColor(0, 50);
-	drawingGrid->draw();
+	drawingGrid->draw(behaviours, collision);
 }
 
 void Editor::drawPallete()
@@ -173,6 +238,12 @@ void Editor::drawPallete()
 	ofSetColor(255, 50);
 	pallete->draw();
 	palleteScroll->draw();
+}
+
+void Editor::drawBehaviourGrid()
+{
+	ofSetColor(255, 50);
+	behaviourGrid->draw(behaviours);
 }
 
 void Editor::drawButtons()
@@ -184,12 +255,16 @@ void Editor::drawButtons()
 	saveButton->draw();
 	loadButton->draw();
 	exportButton->draw();
+	collisionButton->draw();
 }
 
 void Editor::draw()
 {
 	drawPannels();
 	drawDrawingGrid();
-	drawPallete();
+	if (!collision)
+		drawPallete();
+	else
+		drawBehaviourGrid();
 	drawButtons();
 }

@@ -33,6 +33,8 @@ void DrawingGrid::setRes(int horizontal, int vertical)
 	rows = horizontal;
 	columns = vertical;
 	grid.resize(columns, vector<int>(rows, -1));
+
+	behaviour.resize(columns, vector<int>(rows, -1));
 }
 
 void DrawingGrid::hideGrid(bool input)
@@ -53,6 +55,11 @@ int DrawingGrid::getRows()
 int DrawingGrid::getTile(int x, int y)
 {
 	return grid.at(y).at(x);
+}
+
+int DrawingGrid::getBehaviour(int x, int y)
+{
+	return behaviour.at(y).at(x)+1;
 }
 
 void DrawingGrid::setTile(int x, int y, int tile)
@@ -79,13 +86,35 @@ void DrawingGrid::update(TileHandler *tileHandler_,int tile)
 			}
 			if (ofGetMousePressed(OF_MOUSE_BUTTON_3))
 			{
-					grid.at(mouseY).at(mouseX) = -1;
+				grid.at(mouseY).at(mouseX) = -1;
 			}
 		
 	}
 }
 
-void DrawingGrid::draw()
+void DrawingGrid::updateBehaviour(int behav)
+{
+	mouseX = -1;
+	mouseY = -1;
+
+	horizontalSize = width / columns;
+	verticalSize = height / rows;
+	if (ofGetMouseX() > position.x && ofGetMouseX() < position.x + width && ofGetMouseY() > position.y && ofGetMouseY() < position.y + height)
+	{
+		mouseX = (position.x + ofGetMouseX()) / horizontalSize;
+		mouseY = (position.y + ofGetMouseY()) / verticalSize;
+		if (ofGetMousePressed(OF_MOUSE_BUTTON_1))
+		{
+			behaviour.at(mouseY).at(mouseX) = behav;
+		}
+		if (ofGetMousePressed(OF_MOUSE_BUTTON_3))
+		{
+			behaviour.at(mouseY).at(mouseX) = -1;
+		}
+	}
+}
+
+void DrawingGrid::draw(Behaviours behaviours, bool behav)
 {
 	//Draws the Grid Lines
 	if (!hide)
@@ -108,6 +137,22 @@ void DrawingGrid::draw()
 		{
 			if(grid.at(y).at(x) >= 0)
 				tileHandler->getTile(grid.at(y).at(x)).draw(position.x + horizontalSize*x, position.y + verticalSize*y, horizontalSize, verticalSize);
+		}
+	}
+
+	//Draws the behaviours
+	if (behav)
+	{
+		for (int y = 0; y < rows; y++)
+		{
+			for (int x = 0; x < columns; x++)
+			{
+				if (behaviour.at(y).at(x) >= 0)
+				{
+					ofSetColor(behaviours.behaviours.at(behaviour.at(y).at(x)).r, behaviours.behaviours.at(behaviour.at(y).at(x)).g, behaviours.behaviours.at(behaviour.at(y).at(x)).b, 100);
+					ofDrawRectangle(position.x + horizontalSize*x, position.y + verticalSize*y, horizontalSize, verticalSize);
+				}
+			}
 		}
 	}
 	

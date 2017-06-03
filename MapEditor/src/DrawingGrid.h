@@ -2,6 +2,7 @@
 #include "ofMain.h"
 #include <vector>
 #include "TileHandler.h"
+#include "Behaviours.h"
 
 using std::vector;
 
@@ -9,6 +10,7 @@ class DrawingGrid
 {
 private:
 	vector< vector<int> > grid;
+	vector< vector<int> > behaviour;
 	int columns = 2;
 	int rows = 2;
 
@@ -42,10 +44,12 @@ public:
 	int getRows();
 
 	int getTile(int x, int y);
+	int getBehaviour(int x, int y);
 
 	void setTile(int x, int y, int tile);
 
 	void update(TileHandler *tileHandler_, int tile);
+	void updateBehaviour(int behav);
 
-	void draw();
+	void draw(Behaviours behaviours,bool behav);
 };

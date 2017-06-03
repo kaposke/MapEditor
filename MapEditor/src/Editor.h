@@ -4,10 +4,12 @@
 #include "Panel.h"
 #include "DrawingGrid.h"
 #include "SelectionGrid.h"
+#include "BehaviourGrid.h"
 #include "TileHandler.h"
 #include "Button.h"
 #include <fstream>
 #include "Scroll.h"
+#include "Behaviours.h"
 
 class Editor
 {
@@ -16,8 +18,12 @@ private:
 	Panel* selectionPanel;
 	Panel* buttonsPanel;
 
+	Behaviours behaviours;
+
 	DrawingGrid* drawingGrid;
 	SelectionGrid* pallete;
+	BehaviourGrid* behaviourGrid;
+
 	int palleteOfSet;
 
 	Scroll* palleteScroll;
@@ -25,13 +31,20 @@ private:
 	ofImage image;
 	TileHandler* tileHandler;
 
+	ofImage map;
+
 	Button* saveButton;
 	Button* loadButton;
 	Button* exportButton;
+	int c = 0;
+	Button* collisionButton;
+
+	bool collision = false;
 public:
 	void setupPannels();
 	void setupDrawingGrid();
 	void setupPallete();
+	void setupBehaviourGrid();
 	void setupTile();
 	void setupButtons();
 
@@ -40,6 +53,7 @@ public:
 	void updatePannels();
 	void updateDrawingGrid();
 	void updatePallete();
+	void updateBehaviourGrid();
 	void updateButtons();
 	void buttonBehaviors();
 
@@ -48,6 +62,7 @@ public:
 	void drawPannels();
 	void drawDrawingGrid();
 	void drawPallete();
+	void drawBehaviourGrid();
 	void drawButtons();
 
 	void draw();

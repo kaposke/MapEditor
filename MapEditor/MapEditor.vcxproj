@@ -175,6 +175,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\BehaviourGrid.cpp" />
+    <ClCompile Include="src\Behaviours.cpp" />
     <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\DrawingGrid.cpp" />
     <ClCompile Include="src\Editor.cpp" />
@@ -186,6 +188,8 @@
     <ClCompile Include="src\TileHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\BehaviourGrid.h" />
+    <ClInclude Include="src\Behaviours.h" />
     <ClInclude Include="src\Button.h" />
     <ClInclude Include="src\DrawingGrid.h" />
     <ClInclude Include="src\Editor.h" />

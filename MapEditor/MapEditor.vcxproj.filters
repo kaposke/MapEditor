@@ -28,6 +28,12 @@
     <ClCompile Include="src\Scroll.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\BehaviourGrid.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Behaviours.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -60,6 +66,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Scroll.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BehaviourGrid.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Behaviours.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
