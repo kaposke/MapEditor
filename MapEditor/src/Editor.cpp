@@ -48,11 +48,11 @@ void Editor::setupButtons()
 	saveButton = new Button("Save", 15, buttonsPanel->getPosition().x, buttonsPanel->getPosition().y + buttonsPanel->getHeight() / 2, 70, 30);
 	loadButton = new Button("Load", 15, saveButton->getPosition().x, saveButton->getPosition().y, 70, 30);
 	exportButton = new Button("Export", 15, loadButton->getPosition().x, loadButton->getPosition().y, 90, 30);
-	collisionButton = new Button("Collision", 15, exportButton->getPosition().x, exportButton->getPosition().y, 90, 30);
+	behaviourButton = new Button("Behaviours", 15, exportButton->getPosition().x, exportButton->getPosition().y, 130, 30);
 	
-	//Set a different color for collisionButton
-	collisionButton->setColor(100,255,255,100);
-	collisionButton->setActiveColor(100, 255, 255, 255);
+	//Set a different color for behaviourButton
+	behaviourButton->setColor(100,255,255,100);
+	behaviourButton->setActiveColor(100, 255, 255, 255);
 }
 
 void Editor::setup()
@@ -94,7 +94,7 @@ void Editor::updatePallete()
 	pallete->setSize(selectionPanel->getWidth() - palleteOfSet * 2, selectionPanel->getHeight() - palleteOfSet * 2);
 
 	palleteScroll->setPosition(pallete->getPosition().x + pallete->getWidth() + palleteOfSet, 0 + palleteOfSet);
-	palleteScroll->setHeight(ofGetHeight() - buttonsPanel->getHeight() - palleteOfSet * 2);
+	palleteScroll->setHeight(ofGetHeight() - buttonsPanel->getHeight() - palleteOfSet);
 	palleteScroll->update();
 
 	pallete->setPosition(pallete->getPosition().x, ofMap(palleteScroll->getPercentage(), 0,100, selectionPanel->getPosition().y + palleteOfSet, -pallete->getHeight() - buttonsPanel->getHeight() - palleteOfSet + ofGetHeight()));
@@ -113,15 +113,15 @@ void Editor::updateButtons()
 	saveButton->setPosition(buttonsPanel->getPosition().x + palleteOfSet, buttonsPanel->getPosition().y + buttonsPanel->getHeight() / 2 - saveButton->getHeight() / 2);
 	loadButton->setPosition(saveButton->getPosition().x + saveButton->getWidth() + palleteOfSet, saveButton->getPosition().y);
 	exportButton->setPosition(loadButton->getPosition().x + loadButton->getWidth() + palleteOfSet, loadButton->getPosition().y);
-	collisionButton->setPosition(exportButton->getPosition().x + exportButton->getWidth() + palleteOfSet, exportButton->getPosition().y);
+	behaviourButton->setPosition(exportButton->getPosition().x + exportButton->getWidth() + palleteOfSet, exportButton->getPosition().y);
 
 	if (collision)
 	{
-		collisionButton->setColor(100,255,255,255);
+		behaviourButton->setColor(100,255,255,255);
 	}
 	else
 	{
-		collisionButton->setColor(100,255, 255, 100);
+		behaviourButton->setColor(100,255, 255, 100);
 	}
 }
 
@@ -199,8 +199,8 @@ void Editor::buttonBehaviors()
 		}
 	}
 
-	//collisionButton
-	if (collisionButton->isClicked())
+	//behaviourButton
+	if (behaviourButton->isClicked())
 	{
 		if (collision)
 			collision = false;
@@ -255,7 +255,7 @@ void Editor::drawButtons()
 	saveButton->draw();
 	loadButton->draw();
 	exportButton->draw();
-	collisionButton->draw();
+	behaviourButton->draw();
 }
 
 void Editor::draw()
@@ -267,4 +267,15 @@ void Editor::draw()
 	else
 		drawBehaviourGrid();
 	drawButtons();
+}
+
+void Editor::hotKeys(int key)
+{
+	if (key == 'b' || key == 'B')
+	{
+		if (collision)
+			collision = false;
+		else
+			collision = true;
+	}
 }

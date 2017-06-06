@@ -37,7 +37,7 @@ private:
 	Button* loadButton;
 	Button* exportButton;
 	int c = 0;
-	Button* collisionButton;
+	Button* behaviourButton;
 
 	bool collision = false;
 public:
@@ -66,4 +66,6 @@ public:
 	void drawButtons();
 
 	void draw();
+
+	void hotKeys(int key);
 };
