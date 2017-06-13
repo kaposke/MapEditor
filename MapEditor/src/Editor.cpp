@@ -1,25 +1,36 @@
 #include "Editor.h"
 
+bool Editor::gotResized()
+{
+	return ofGetWidth() != screenWidth || ofGetHeight() != screenHeight ? true : false;
+}
+
 void Editor::setupPannels()
 {
+	//Setting up panels positions and colors
+	//gridPanel
 	gridPanel = new Panel(0, 0, ofGetHeight(), ofGetHeight());
 	gridPanel->setColor(100, 100, 100);
 
+	//selectionPanel
 	selectionPanel = new Panel(gridPanel->getPosition().x + gridPanel->getWidth(), 0, ofGetWidth() - gridPanel->getWidth(), ofGetHeight());
 	selectionPanel->setColor(51, 51, 51);
 
+	//buttonsPanel
 	buttonsPanel = new Panel(selectionPanel->getPosition().x, selectionPanel->getPosition().y, selectionPanel->getWidth(), 50);
 	buttonsPanel->setColor(51, 51, 51);
 }
 
 void Editor::setupDrawingGrid()
 {
+	//Setting up the drawing grid position and resolution (w/h)
 	drawingGrid = new DrawingGrid(gridPanel->getPosition().x, gridPanel->getPosition().x, gridPanel->getWidth(), gridPanel->getHeight());
 	drawingGrid->setRes(16, 16);
 }
 
 void Editor::setupPallete()
 {
+	//Setting up the pallete and scroll positions
 	palleteOfSet = 10;
 	pallete = new SelectionGrid(selectionPanel->getPosition().x + palleteOfSet, selectionPanel->getPosition().y + palleteOfSet, selectionPanel->getWidth() - palleteOfSet * 2, selectionPanel->getHeight() - palleteOfSet * 2);
 	palleteScroll = new Scroll(pallete->getPosition().x + pallete->getWidth() + palleteOfSet * 2, 0 + palleteOfSet, ofGetHeight() - buttonsPanel->getHeight() - palleteOfSet * 2);
@@ -27,12 +38,14 @@ void Editor::setupPallete()
 
 void Editor::setupBehaviourGrid()
 {
+	//Setting up the behaviourGrid position
 	behaviourGrid = new BehaviourGrid(selectionPanel->getPosition().x + palleteOfSet, selectionPanel->getPosition().y + palleteOfSet, selectionPanel->getWidth() - palleteOfSet * 2, selectionPanel->getHeight() - palleteOfSet * 2);
 }
 
 void Editor::setupTile()
 {
-	image.loadImage("images/kenney.png");
+	//Cropping tiles
+	image.loadImage(imgPath);
 	tileHandler = new TileHandler();
 	tileHandler->addTiles(image, 27, 20);
 	for (int i = 0; i < tileHandler->getTilesAmount(); i++)
@@ -40,16 +53,22 @@ void Editor::setupTile()
 		pallete->addTile(tileHandler->getTile(i));
 	}
 
+	//adding a default red behaviour (collision)
 	behaviours.addBehaviour(255,0,0);
 }
 
 void Editor::setupButtons()
 {
+	//Setting up the buttons positions
 	saveButton = new Button("Save", 15, buttonsPanel->getPosition().x, buttonsPanel->getPosition().y + buttonsPanel->getHeight() / 2, 70, 30);
 	loadButton = new Button("Load", 15, saveButton->getPosition().x, saveButton->getPosition().y, 70, 30);
 	exportButton = new Button("Export", 15, loadButton->getPosition().x, loadButton->getPosition().y, 90, 30);
 	behaviourButton = new Button("Behaviours", 15, exportButton->getPosition().x, exportButton->getPosition().y, 130, 30);
 	
+	
+	open = new Button("...", 15, 400 - 40 - 20, 20 - 10, 40, 20);
+	start = new Button("Start", 15, 400 - 40 - 30, 20 + 20 + 20, 60, 30);
+
 	//Set a different color for behaviourButton
 	behaviourButton->setColor(100,255,255,100);
 	behaviourButton->setActiveColor(100, 255, 255, 255);
@@ -57,30 +76,45 @@ void Editor::setupButtons()
 
 void Editor::setup()
 {
+	ofSetWindowShape(400, 100);
+	ofSetWindowPosition(ofGetScreenWidth()/2 - ofGetWidth()/2, ofGetScreenHeight()/2 - ofGetHeight()/2);
+	ofBackground(51);
+	imgPath = "Select you tileSheet";
+	pathPos.set(20,20);
+	
+	//Calling all setup functions
 	setupPannels();
 	setupDrawingGrid();
 	setupPallete();
 	setupBehaviourGrid();
-	setupTile();
 	setupButtons();
 }
 
 void Editor::updatePannels()
 {
-	gridPanel->setPosition(0, 0);
-	gridPanel->setSize(ofGetHeight(), ofGetHeight());
+	//Updating all panel positions(for if the screen gets resized)
+	if(gotResized())
+	{
+		gridPanel->setPosition(0, 0);
+		gridPanel->setSize(ofGetHeight(), ofGetHeight());
 
-	selectionPanel->setPosition(gridPanel->getPosition().x + gridPanel->getWidth(), 0);
-	selectionPanel->setSize(ofGetWidth() - gridPanel->getWidth(), ofGetHeight());
+		selectionPanel->setPosition(gridPanel->getPosition().x + gridPanel->getWidth(), 0);
+		selectionPanel->setSize(ofGetWidth() - gridPanel->getWidth(), ofGetHeight());
 
-	buttonsPanel->setPosition(selectionPanel->getPosition().x, selectionPanel->getPosition().y + selectionPanel->getHeight() - buttonsPanel->getHeight());
-	buttonsPanel->setSize(selectionPanel->getWidth(), buttonsPanel->getHeight());
+		buttonsPanel->setPosition(selectionPanel->getPosition().x, selectionPanel->getPosition().y + selectionPanel->getHeight() - buttonsPanel->getHeight());
+		buttonsPanel->setSize(selectionPanel->getWidth(), buttonsPanel->getHeight());
+	}
 }
 
 void Editor::updateDrawingGrid()
 {
-	drawingGrid->setPosition(gridPanel->getPosition());
-	drawingGrid->setSize(gridPanel->getWidth(), gridPanel->getHeight());
+	//Updating the drawing grid position(for if the screen gets resized)
+	if (gotResized())
+	{
+		drawingGrid->setPosition(gridPanel->getPosition());
+		drawingGrid->setSize(gridPanel->getWidth(), gridPanel->getHeight());
+	}
+	//Toggle behaviour editor
 	if (!collision)
 		drawingGrid->update(tileHandler, pallete->getSelected());
 	else
@@ -89,32 +123,44 @@ void Editor::updateDrawingGrid()
 
 void Editor::updatePallete()
 {
-	pallete->setPosition(selectionPanel->getPosition() + palleteOfSet);
-	
-	pallete->setSize(selectionPanel->getWidth() - palleteOfSet * 2, selectionPanel->getHeight() - palleteOfSet * 2);
-
-	palleteScroll->setPosition(pallete->getPosition().x + pallete->getWidth() + palleteOfSet, 0 + palleteOfSet);
+	//Updating the pallete and scroll positions(for if the screen gets resized)
+	if (gotResized())
+	{
+		pallete->setPosition(selectionPanel->getPosition() + palleteOfSet);
+		pallete->setSize(selectionPanel->getWidth() - palleteOfSet * 2, selectionPanel->getHeight() - palleteOfSet * 2);
+	}
 	palleteScroll->setHeight(ofGetHeight() - buttonsPanel->getHeight() - palleteOfSet);
+	palleteScroll->setPosition(pallete->getPosition().x + pallete->getWidth() + palleteOfSet, 0 + palleteOfSet);
 	palleteScroll->update();
-
-	pallete->setPosition(pallete->getPosition().x, ofMap(palleteScroll->getPercentage(), 0,100, selectionPanel->getPosition().y + palleteOfSet, -pallete->getHeight() - buttonsPanel->getHeight() - palleteOfSet + ofGetHeight()));
+	pallete->setPosition(pallete->getPosition().x, ofMap(palleteScroll->getPercentage(), 0, 100, selectionPanel->getPosition().y + palleteOfSet, -pallete->getHeight() - buttonsPanel->getHeight() - palleteOfSet + ofGetHeight()));
 	pallete->update();
 }
 
 void Editor::updateBehaviourGrid()
 {
-	behaviourGrid->setPosition(selectionPanel->getPosition() + palleteOfSet);
-	behaviourGrid->setSize(selectionPanel->getWidth() - palleteOfSet * 2, selectionPanel->getHeight() - palleteOfSet * 2);
+	//Updating the behaviour grid position(for if the screen gets resized)
+	if (gotResized())
+	{
+		behaviourGrid->setPosition(selectionPanel->getPosition() + palleteOfSet);
+		behaviourGrid->setSize(selectionPanel->getWidth() - palleteOfSet * 2, selectionPanel->getHeight() - palleteOfSet * 2);
+	}
+
+	//Calling functionality updates
 	behaviourGrid->update(behaviours);
 }
 
 void Editor::updateButtons()
 {
-	saveButton->setPosition(buttonsPanel->getPosition().x + palleteOfSet, buttonsPanel->getPosition().y + buttonsPanel->getHeight() / 2 - saveButton->getHeight() / 2);
-	loadButton->setPosition(saveButton->getPosition().x + saveButton->getWidth() + palleteOfSet, saveButton->getPosition().y);
-	exportButton->setPosition(loadButton->getPosition().x + loadButton->getWidth() + palleteOfSet, loadButton->getPosition().y);
-	behaviourButton->setPosition(exportButton->getPosition().x + exportButton->getWidth() + palleteOfSet, exportButton->getPosition().y);
+	//Updating all buttons positions(for if the screen gets resized)
+	if (gotResized())
+	{
+		saveButton->setPosition(buttonsPanel->getPosition().x + palleteOfSet, buttonsPanel->getPosition().y + buttonsPanel->getHeight() / 2 - saveButton->getHeight() / 2);
+		loadButton->setPosition(saveButton->getPosition().x + saveButton->getWidth() + palleteOfSet, saveButton->getPosition().y);
+		exportButton->setPosition(loadButton->getPosition().x + loadButton->getWidth() + palleteOfSet, loadButton->getPosition().y);
+		behaviourButton->setPosition(exportButton->getPosition().x + exportButton->getWidth() + palleteOfSet, exportButton->getPosition().y);
+	}
 
+	//Changing button color
 	if (collision)
 	{
 		behaviourButton->setColor(100,255,255,255);
@@ -211,14 +257,42 @@ void Editor::buttonBehaviors()
 
 void Editor::update()
 {
-	updatePannels();
-	updateDrawingGrid();
-	if (!collision)
-		updatePallete();
-	else
-		updateBehaviourGrid();
-	updateButtons();
-	buttonBehaviors();
+	switch (state)
+	{
+	case SETUP:
+		if (open->isClicked())
+		{
+			ofFileDialogResult result = ofSystemLoadDialog("Open");
+			if (result.bSuccess) {
+				imgPath = result.getPath();
+			}
+		}
+
+		if (start->isClicked())
+		{
+			setupTile();
+			ofSetWindowShape(1200, 768);
+			ofSetWindowPosition(ofGetScreenWidth() / 2 - ofGetWidth() / 2, ofGetScreenHeight() / 2 - ofGetHeight() / 2);
+
+			state = EDITOR;
+		}
+		break;
+	case EDITOR:
+		//Calling all update functions
+		updatePannels();
+		updateDrawingGrid();
+		//Toggle behaviour editor
+		if (!collision)
+			updatePallete();
+		else
+			updateBehaviourGrid();
+		updateButtons();
+		buttonBehaviors();
+
+		screenWidth = ofGetWidth();
+		screenHeight = ofGetHeight();
+		break;
+	}
 }
 
 void Editor::drawPannels()
@@ -260,22 +334,43 @@ void Editor::drawButtons()
 
 void Editor::draw()
 {
-	drawPannels();
-	drawDrawingGrid();
-	if (!collision)
-		drawPallete();
-	else
-		drawBehaviourGrid();
-	drawButtons();
+	switch (state)
+	{
+	case SETUP:
+		ofDrawBitmapString(imgPath, pathPos);
+		open->draw();
+		start->draw();
+		break;
+	case EDITOR:
+		drawPannels();
+		drawDrawingGrid();
+
+		//Toggle behaviour mode
+		if (!collision)
+			drawPallete();
+		else
+			drawBehaviourGrid();
+
+		drawButtons();
+		break;
+	}
 }
 
 void Editor::hotKeys(int key)
 {
-	if (key == 'b' || key == 'B')
+	switch (state)
 	{
-		if (collision)
-			collision = false;
-		else
-			collision = true;
+	case SETUP:
+		break;
+	case EDITOR:
+		//Toggle behaviour mode
+		if (key == 'b' || key == 'B')
+		{
+			if (collision)
+				collision = false;
+			else
+				collision = true;
+		}
+		break;
 	}
 }

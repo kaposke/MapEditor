@@ -11,9 +11,23 @@
 #include "Scroll.h"
 #include "Behaviours.h"
 
+#define SETUP 0
+#define EDITOR 1
+
 class Editor
 {
 private:
+	int state = SETUP;
+	//SETUP STATE
+	Button* open;
+	string imgPath;
+	ofVec2f pathPos;
+	Button* start;
+
+	//EDITOR STATE
+	float screenWidth = 0;
+	float screenHeight = 0;
+
 	Panel* gridPanel;
 	Panel* selectionPanel;
 	Panel* buttonsPanel;
@@ -41,6 +55,8 @@ private:
 
 	bool collision = false;
 public:
+	bool gotResized();
+
 	void setupPannels();
 	void setupDrawingGrid();
 	void setupPallete();
