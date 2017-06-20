@@ -110,6 +110,8 @@ void BehaviourGrid::draw(Behaviours behaviours)
 					ofSetColor(behaviours.behaviours[pos].r, behaviours.behaviours[pos].g, behaviours.behaviours[pos].b,255);
 					ofDrawRectangle((position.x + horizontalSize * x) + maxSize / 8, (position.y + verticalSize * y) + maxSize / 8, horizontalSize - maxSize / 4, verticalSize - maxSize / 4);
 				}
+				ofSetColor(255);
+				ofDrawBitmapString(pos + 1, position.x + horizontalSize * (x+1) - 20, position.y + verticalSize * (y+1) - 10);
 			}
 			pos++;
 		}

@@ -185,6 +185,7 @@
     <ClCompile Include="src\Panel.cpp" />
     <ClCompile Include="src\Scroll.cpp" />
     <ClCompile Include="src\SelectionGrid.cpp" />
+    <ClCompile Include="src\Slider.cpp" />
     <ClCompile Include="src\TileHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +198,7 @@
     <ClInclude Include="src\Panel.h" />
     <ClInclude Include="src\Scroll.h" />
     <ClInclude Include="src\SelectionGrid.h" />
+    <ClInclude Include="src\Slider.h" />
     <ClInclude Include="src\TileHandler.h" />
   </ItemGroup>
   <ItemGroup>

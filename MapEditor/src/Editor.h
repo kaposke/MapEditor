@@ -10,6 +10,7 @@
 #include <fstream>
 #include "Scroll.h"
 #include "Behaviours.h"
+#include "Slider.h"
 
 #define SETUP 0
 #define EDITOR 1
@@ -23,6 +24,8 @@ private:
 	string imgPath;
 	ofVec2f pathPos;
 	Button* start;
+	Slider* widthSlider;
+	Slider* heightSlider;
 
 	//EDITOR STATE
 	float screenWidth = 0;
@@ -52,6 +55,11 @@ private:
 	Button* exportButton;
 	int c = 0;
 	Button* behaviourButton;
+	Button* addBehaviourButton;
+
+	Slider* redSlider;
+	Slider* greenSlider;
+	Slider* blueSlider;
 
 	bool collision = false;
 public:
@@ -61,7 +69,7 @@ public:
 	void setupDrawingGrid();
 	void setupPallete();
 	void setupBehaviourGrid();
-	void setupTile();
+	void setupTile(int w, int h);
 	void setupButtons();
 
 	void setup();
