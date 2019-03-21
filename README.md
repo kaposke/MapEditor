@@ -13,9 +13,7 @@ Este editor é usado para criação de mapas a partir de um tileset 2d, gerando 
  - Desenhar o mapa utilizando os tiles importados. <br>
  - Criar "IDs" em tiles para programação de comportamentos específicos. <br>
  <br>
- <iframe width="420" height="315"
-   src="https://youtu.be/VTcr4TRZalc">
- </iframe>
+ <iframe width="420" height="315" src="https://youtu.be/VTcr4TRZalc"/>
  <hr>
  
 <h2>English</h2>
